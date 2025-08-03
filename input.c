@@ -7,6 +7,7 @@
 #include<termio.h>
 
 #include "input.h"
+#include "history.h"
 
 
 struct termios orig_termios;
@@ -31,6 +32,7 @@ char* get_input(){
     int inp_pointer=0;
     int cursor_pointer=0;
     char c;
+
     while(read(STDIN_FILENO,&c,1)==1){
 
         if(c=='\033'){
@@ -39,17 +41,52 @@ char* get_input(){
             read(STDIN_FILENO,&buf[1],1);
             if(buf[0]=='['){
                 switch(buf[1]){
+
                     case 'A': 
-                    get_prev_cmd();
-                    break;
+                    //up arrow
+                    {
+                        char* prev=get_prev_cmd();
+                        if(prev){
+                            int len=strlen(inp);
+                            for(int i=0;i<len;i++){
+                                printf("\b \b");
+                            }
+                            strcpy(inp,prev);
+                            inp_pointer=strlen(inp);
+                            cursor_pointer=inp_pointer;
+                            printf("%s",inp);
+                        }
+                        break;
+                    }
+
                     case 'B':
-                    get_next_cmd();
-                    break;
+                    //down arrow
+                    {
+                        char* next = get_next_cmd();
+                        if(next){
+                            int len=strlen(inp);
+                            for(int i=0;i<len;i++){
+                                printf("\b \b");
+                            }
+                        }
+                        strcpy(inp,next);
+                        inp_pointer=strlen(inp);
+                        cursor_pointer=inp_pointer;
+                        printf("%s",inp);
+                        break;
+                    }
+
                     case 'C':
-                    move_cursor_front();
+                    //move cursor front/right
+                    if(cursor_pointer<inp_pointer){
+                        printf("\033[C");
+                    }
                     break;
                     case 'D':
-                    move_cursor_back();
+                    //move cursor back/left
+                    if(cursor_pointer>0){
+                        printf("\033[D");
+                    }
                     break;
                 }
             }
@@ -73,10 +110,18 @@ char* get_input(){
                 }
             }
         }
+        else if(c==9){
+            //tab
+            if(inp_pointer==0)continue;
+            else if(inp_pointer>0){
+                
+            }
+
+        }
         
         
         else if(c>=32 && c<=127){
-            for (int i = inp_pointer; i > cursor; i--) {
+            for (int i = inp_pointer; i > cursor_pointer; i--) {
                 inp[i] = inp[i - 1];
             }
             inp[cursor_pointer]=c;

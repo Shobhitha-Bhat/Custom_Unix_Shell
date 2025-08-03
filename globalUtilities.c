@@ -13,13 +13,18 @@ char hostname[HOST_NAME_MAXLEN];
 char* home;
 char cwd_path[PATH_MAXLEN];
 char prompt_line[PROMPT_LINE_MAXLEN];
+FILE *fp;
 
 void const_user_data(){
     pw=getpwuid(getuid());
     home=pw->pw_dir;
     username = pw->pw_name;
     gethostname(hostname,HOST_NAME_MAXLEN);
-
+    fp=fopen("history_file","a");
+    if (fptr == NULL) {
+        printf("Error creating file!\n");
+        exit(0);
+    }
 }
 
 

@@ -18,6 +18,8 @@ extern char *home;
 extern char cwd_path[PATH_MAXLEN];
 extern char prompt_line[PROMPT_LINE_MAXLEN];
 
+extern FILE *fp;
+
 void const_user_data();
 void initialize_prompt();
 void display_prompt();
