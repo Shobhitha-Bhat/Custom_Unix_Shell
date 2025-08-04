@@ -8,8 +8,10 @@
 
 #include "input.h"
 #include "history.h"
+#include "globalUtilities.h"
 
-
+long* file_pointer_index;
+FILE *fp;
 struct termios orig_termios;
 
 void disable_raw_input() {
@@ -28,6 +30,7 @@ void enable_raw_input() {
 
 
 char* get_input(){
+    file_pointer_index=ftell(fp);
     char* inp=malloc(sizeof(char)*INPUT_MAXLEN);
     int inp_pointer=0;
     int cursor_pointer=0;
@@ -45,7 +48,7 @@ char* get_input(){
                     case 'A': 
                     //up arrow
                     {
-                        char* prev=get_prev_cmd();
+                        char* prev=get_prev_cmd(&file_pointer_index);
                         if(prev){
                             int len=strlen(inp);
                             for(int i=0;i<len;i++){
@@ -62,7 +65,7 @@ char* get_input(){
                     case 'B':
                     //down arrow
                     {
-                        char* next = get_next_cmd();
+                        char* next = get_next_cmd(&file_pointer_index);
                         if(next){
                             int len=strlen(inp);
                             for(int i=0;i<len;i++){
@@ -114,7 +117,7 @@ char* get_input(){
             //tab
             if(inp_pointer==0)continue;
             else if(inp_pointer>0){
-                
+                printf("    ");
             }
 
         }
@@ -136,6 +139,8 @@ char* get_input(){
         }
         else if(c=='\n'){
             inp[inp_pointer]='\0';
+            fseek(fp,0,SEEK_END);
+            file_pointer_index=SEEK_END;
                 return inp;
         }
     }
