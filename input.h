@@ -1,6 +1,6 @@
 #ifndef INPUT_H
 #define INPUT_H
-#define INPUT_MAXLEN
+#define INPUT_MAXLEN 1024
 
 extern char* inp;
 

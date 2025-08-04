@@ -4,8 +4,8 @@
 
 void add_to_history();
 void remove_from_history();
-void get_prev_cmd();
-void get_next_cmd();
+char* get_prev_cmd();
+char* get_next_cmd();
 
 
 

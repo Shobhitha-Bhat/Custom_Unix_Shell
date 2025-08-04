@@ -7,6 +7,7 @@
 
 #include "globalUtilities.h"
 #include "parse.h"
+#include "cleanup.h"
 
 int main(){
     const_user_data();
@@ -15,7 +16,7 @@ int main(){
         display_prompt();
         parse();
     }
-    atexit(clean_up());
+    // atexit(clean_up());
 
 }
 

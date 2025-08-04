@@ -6,14 +6,19 @@
 #include <signal.h>
 
 #include "globalUtilities.h"
+#include "history.h"
 
-FILE *fp;
-
-
-
-void add_to_history();
-void remove_from_history();
+// FILE *fp;
 char ch;
+
+
+
+void add_to_history(){
+
+}
+void remove_from_history(){
+
+}
 
 char* get_prev_cmd(long* file_pointer_index){
     char* line=malloc(1024);

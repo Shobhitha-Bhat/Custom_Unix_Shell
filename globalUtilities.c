@@ -21,7 +21,7 @@ void const_user_data(){
     username = pw->pw_name;
     gethostname(hostname,HOST_NAME_MAXLEN);
     fp=fopen("history_file","a");
-    if (fptr == NULL) {
+    if (fp == NULL) {
         printf("Error creating file!\n");
         exit(0);
     }
@@ -44,5 +44,5 @@ void initialize_prompt(){
 }
 
 void display_prompt(){
-    printf(BOLD_GREEN "%s@%s" RESET ":" BOLD_BLUE "%s" RESET YELLOW"$ \n" RESET,username,hostname,prompt_line);
+    printf(BOLD_GREEN "%s@%s" RESET ":" BOLD_BLUE "%s" RESET YELLOW"$ " RESET,username,hostname,prompt_line);
 }

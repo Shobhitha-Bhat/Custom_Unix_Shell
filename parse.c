@@ -6,6 +6,7 @@
 #include <sys/types.h>
 
 #include "history.h"
+#include "input.h"
 
 void parse(){
     enable_raw_input();
