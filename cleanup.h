@@ -3,5 +3,8 @@
 
 
 void clean_up();
+void finish(){
+    
+}
 
 #endif

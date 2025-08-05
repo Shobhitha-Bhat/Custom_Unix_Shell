@@ -7,14 +7,15 @@
 
 #include "history.h"
 #include "input.h"
+#include "globalUtilities.h"
 
 void parse(){
     enable_raw_input();
-    char *user_input = get_input();
-
-    //add only valid commands from user input to the history file
-    add_to_history();
-
-
-
+    while(1){
+        char *user_input = get_input();
+        add_to_history(user_input);
+        
+        display_prompt();
+    }
+    
 }

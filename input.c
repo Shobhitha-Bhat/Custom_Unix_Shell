@@ -31,8 +31,16 @@ void enable_raw_input() {
 
 char* get_input(){
     // printf(">>> ");   input debug
-fflush(stdout);
-    file_pointer_index=ftell(fp);
+    fflush(stdout);
+    fp=fopen("history_file.txt","r");
+    if(fp){
+        fseek(fp,0,SEEK_END);  //initialize it at the eof at the beginning
+        file_pointer_index=ftell(fp);
+        fclose(fp);
+    }
+    else{  //else if file doesnt open, temporarily do
+        file_pointer_index=0;
+    }
     char* inp=malloc(sizeof(char)*INPUT_MAXLEN);
     int inp_pointer=0;
     int cursor_pointer=0;
@@ -52,15 +60,17 @@ fflush(stdout);
                     {
                         char* prev=get_prev_cmd(&file_pointer_index);
                         if(prev){
-                            int len=strlen(inp);
-                            for(int i=0;i<len;i++){
-                                printf("\b \b");
-                                fflush(stdout);
+                            // int len=strlen(inp);
+                            // for(int i=0;i<len;i++){
+                            //     printf("\b \b");
+                            //     fflush(stdout);
 
-                            }
+                            // }
                             strcpy(inp,prev);
                             inp_pointer=strlen(inp);
                             cursor_pointer=inp_pointer;
+                            printf("\33[2K\r");
+                            display_prompt();
                             printf("%s",inp);
                             fflush(stdout);
 
@@ -72,19 +82,21 @@ fflush(stdout);
                     //down arrow
                     {
                         char* next = get_next_cmd(&file_pointer_index);
-                        if(next){
-                            int len=strlen(inp);
-                            for(int i=0;i<len;i++){
-                                printf("\b \b");
-                                fflush(stdout);
+                        if(next && strlen(next)>0){
+                            // int len=strlen(inp);
+                            // for(int i=0;i<len;i++){
+                            //     printf("\b \b");
+                            //     fflush(stdout);
 
-                            }
+                            // }
                             strcpy(inp,next);
+                            inp_pointer=strlen(inp);
+                            cursor_pointer=inp_pointer;
+                            printf("\33[2K\r");  //clear the line
+                            display_prompt();
+                            printf("%s",inp);
+                            fflush(stdout);
                         }
-                        inp_pointer=strlen(inp);
-                        cursor_pointer=inp_pointer;
-                        printf("%s",inp);
-                        fflush(stdout);
 
                         break;
                     }
@@ -172,8 +184,8 @@ fflush(stdout);
         else if(c=='\n'){
             printf("\n");
             inp[inp_pointer]='\0';
-            fseek(fp,0,SEEK_END);
-            file_pointer_index=SEEK_END;
+            // fseek(fp,0,SEEK_END);
+            // file_pointer_index=SEEK_END;
                 return inp;
         }
     }

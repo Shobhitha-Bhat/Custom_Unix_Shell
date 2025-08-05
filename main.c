@@ -15,6 +15,7 @@ int main(){
         initialize_prompt();
         display_prompt();
         parse();
+        finish();
     }
     // atexit(clean_up());
 

@@ -2,8 +2,7 @@
 #define HISTORY_H
 
 
-void add_to_history();
-void remove_from_history();
+void add_to_history(char* );
 char* get_prev_cmd();
 char* get_next_cmd();
 

@@ -1,4 +1,7 @@
 main
 .vscode/
 *.o
+*.txt
+history_file
+
 

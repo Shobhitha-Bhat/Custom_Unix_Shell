@@ -13,19 +13,26 @@ char ch;
 
 
 
-void add_to_history(){
-
+void add_to_history(char* input){
+fp=fopen("history_file.txt","a");
+fwrite(input,1,strlen(input),fp);
+fwrite("\n", 1, 1, fp);
+fclose(fp);
 }
-void remove_from_history(){
 
-}
 
 char* get_prev_cmd(long* file_pointer_index){
     char* line=malloc(1024);
+    if (!line) return NULL;
     fp=fopen("history_file.txt","r");
 
     // fseek(fp,0,SEEK_END);
     long file_position =*file_pointer_index;
+    if (file_position == 0) {
+        fclose(fp);
+        free(line);
+        return NULL;
+    }
     // do{
     //     fseek(fp,--pos,SEEK_SET);
     //     fread(&ch,1,1,fp);
@@ -53,12 +60,19 @@ char* get_prev_cmd(long* file_pointer_index){
     fseek(fp,file_position,SEEK_SET);
 
     //get the entire line from the current file_position
-    fgets(line, 1024, fp);
+    if(fgets(line, 1024, fp)){
+        if(strlen(line)>0 && line[strlen(line)-1]=='\n'){
+                line[strlen(line)-1]='\0';
+            }
+            *file_pointer_index=file_position;
+            fclose(fp);
+            return line;
 
-    *file_pointer_index=file_position;
+    }
 
+ free(line);
     fclose(fp);
-    return line;
+    return NULL;
 
 }
 
@@ -69,13 +83,21 @@ char* get_next_cmd(long* file_pointer_index){
     long file_position =*file_pointer_index;
     fseek(fp,0,SEEK_END);
     long endOfFile=ftell(fp);
-    if(file_position>0 && file_position<endOfFile){
+    if(file_position>=0 && file_position<endOfFile){
         fseek(fp,file_position,SEEK_SET);
-        fgets(line, 1024, fp);
-        *file_pointer_index=ftell(fp);
+        if(fgets(line, 1024, fp)){
+
+            if(strlen(line)>0 && line[strlen(line)-1]=='\n'){
+                line[strlen(line)-1]='\0';
+            }
+            *file_pointer_index=ftell(fp);
+            fclose(fp);
+            return line;
+        }
+        free(line);
     }
-    fclose(fp);
-    return line;
+fclose(fp);
+    return NULL;
 
 }
 
