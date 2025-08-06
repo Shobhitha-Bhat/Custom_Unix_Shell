@@ -6,6 +6,7 @@
 #define BOLD_GREEN "\033[1;32m"
 #define BOLD_BLUE "\033[1;34m"
 #define YELLOW "\033[0;33m"
+#define RED "\033[0;31m"
 
 #define HOST_NAME_MAXLEN 128
 #define PATH_MAXLEN 128

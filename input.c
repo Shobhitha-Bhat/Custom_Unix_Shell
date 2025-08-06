@@ -152,12 +152,18 @@ char* get_input(){
         }
         else if(c==9){
             //tab
-            // if(inp_pointer==0)continue;
-            // else if(inp_pointer>0){
-            //     printf("    ");
-            //     fflush(stdout);
+            // printf("\33[2K\r");  //clear the line
+            // display_prompt();
+            // printf("    ");
+
+            // for(int i=cursor_pointer;i<strlen("      ");i++){
+            //     inp[i]=inp
             // }
-        continue;
+            // inp_pointer=inp_pointer+strlen("      ");
+            // cursor_pointer=cursor_pointer+strlen("      ");
+            // inp[inp_pointer]='\0';
+            continue;
+
 
         }
         
