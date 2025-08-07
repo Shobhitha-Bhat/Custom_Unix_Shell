@@ -11,3 +11,7 @@ FILE *fp;
 void clean_up(){
     fclose(fp);
 }
+
+void finish(){
+    
+}

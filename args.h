@@ -10,6 +10,8 @@ typedef struct Arglist{
 
 
 void tokenize_into_args(char* );
-void init_args_struct();
+void FreeArgs(Arglist*);
+void AddCmdArgs(Arglist* , char* );
+Arglist* init_and_add_args(char* );
 
 #endif

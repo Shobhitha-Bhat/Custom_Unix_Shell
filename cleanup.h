@@ -3,8 +3,6 @@
 
 
 void clean_up();
-void finish(){
-    
-}
+void finish();
 
 #endif
